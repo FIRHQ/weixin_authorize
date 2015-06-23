@@ -5,6 +5,8 @@
 [![Code Climate](https://codeclimate.com/github/lanrion/weixin_authorize.png)](https://codeclimate.com/github/lanrion/weixin_authorize)
 [![Coverage Status](https://codeclimate.com/github/lanrion/weixin_authorize/coverage.png)](https://codeclimate.com/github/lanrion/weixin_authorize)
 
+#### 增加 `qrcode_ticket` 存储方案
+
 Support using [Redis](http://redis.io) to store `access_token`
 
 [Wiki](https://github.com/lanrion/weixin_authorize/wiki)
@@ -26,7 +28,7 @@ Support using [Redis](http://redis.io) to store `access_token`
 * 多媒体管理
 * JS SDK（ticket支持缓存）
 
-## V2.0开发中： 
+## V2.0开发中：
 https://github.com/lanrion/weixin_authorize/milestones/v2.0-dev
 
 1. 重构API实现，调用方式
@@ -42,7 +44,7 @@ Go to https://github.com/lanrion/weixin_authorize/issues/2, apply a weixin sandb
 
 https://github.com/lanrion/weixin_authorize/blob/master/spec/spec_helper.rb
 
-change your infos: 
+change your infos:
 
 ```ruby
 ENV["APPID"]="wxe371e0960de5426a"
