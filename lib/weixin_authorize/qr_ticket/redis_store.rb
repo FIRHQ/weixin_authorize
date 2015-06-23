@@ -6,10 +6,10 @@ module WeixinAuthorize
         weixin_redis.get("#{client.qrticket_redis_key}:#{str}").nil?
       end
 
-      def set_qrticket scene_id = nil, scene_str = nil, expire_seconds = 600, limited = false
+      def set_qrticket scene_id, scene_str = nil, expire_seconds = 600, limited = false
         super
         weixin_redis.setex(
-          "#{client.qrticket_redis_key}:#{str}",
+          "#{client.qrticket_redis_key}:#{client.qrticket}",
           expire_seconds.to_i,
           client.qrcode_url
         )

@@ -26,11 +26,11 @@ module WeixinAuthorize
         return nil if qrticket_expired?(str)
       end
 
-      def set_qrticket scene_id = nil, scene_str = nil, expire_seconds = 600, limited = false
+      def set_qrticket scene_id, scene_str = nil, expire_seconds = 600, limited = false
         if limited
-          result = client.create_qr_limit_scene(scene_id, scene_str)
+          result = client.create_qr_limit_scene(scene_id, scene_str).result
         else
-          result = client.create_qr_scene(scene_id, expire_seconds)
+          result = client.create_qr_scene(scene_id, expire_seconds).result
         end
 
         client.qrticket   = result["ticket"]

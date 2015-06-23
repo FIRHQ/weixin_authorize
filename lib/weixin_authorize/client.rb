@@ -27,7 +27,7 @@ module WeixinAuthorize
       @redis_key           = "weixin_#{app_id}"
       @qrticket_redis_key  = "weixin_qr_code_#{app_id}"
       @jsticket_redis_key  = "weixin_js_sdk_#{app_id}"
-      @qrticket_redis_key  = @jsticket_expired_at = @expired_at = Time.now.to_i
+      @qrticket_expired_at = @jsticket_expired_at = @expired_at = Time.now.to_i
     end
 
     # return token
@@ -52,7 +52,7 @@ module WeixinAuthorize
       qrticket_store.get_qrticket(str)
     end
 
-    def set_qrticket scene_id = nil, scene_str = nil, expire_seconds = 600, limited = false
+    def set_qrticket scene_id, scene_str = nil, expire_seconds = 600, limited = false
       qrticket_store.set_qrticket(scene_id, scene_str, expire_seconds, limited)
     end
 
