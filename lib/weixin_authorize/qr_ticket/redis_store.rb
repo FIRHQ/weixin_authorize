@@ -42,6 +42,7 @@ module WeixinAuthorize
         return nil if qrticket_expired?(str)
 
         weixin_redis.hset("#{client.qrticket_redis_key}:#{str}", IS_USERD, '1')
+        get_qrticket(str)
       end
 
       def weixin_redis
