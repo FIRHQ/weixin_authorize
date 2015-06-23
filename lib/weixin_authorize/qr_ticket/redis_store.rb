@@ -16,9 +16,12 @@ module WeixinAuthorize
       end
 
       def get_qrticket str
-        super
-        client.qrticket = str
-        client.qrcode_url = weixin_redis.get("#{client.qrticket_redis_key}:#{str}")
+        return nil unless super(str)
+
+        client.qrticket            = str
+        client.qrcode_url          = weixin_redis.get("#{client.qrticket_redis_key}:#{str}")
+        client.qrticket_expired_at = weixin_redis.ttl("#{client.qrticket_redis_key}:#{str}") + Time.now.to_i
+        client
       end
 
       def weixin_redis
