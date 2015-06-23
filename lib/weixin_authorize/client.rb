@@ -52,6 +52,10 @@ module WeixinAuthorize
       qrticket_store.get_qrticket(str)
     end
 
+    def set_qrticket scene_id = nil, scene_str = nil, expire_seconds = 600, limited = false
+      qrticket_store.set_qrticket(scene_id, scene_str, expire_seconds, limited)
+    end
+
     def jsticket_store
       JsTicket::Store.init_with(self)
     end

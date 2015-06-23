@@ -3,7 +3,7 @@ module WeixinAuthorize
     class RedisStore < Store
 
       def qrticket_expired? str
-        weixin_redis.get("#{client.qrticket_redis_key}:#{str}").empty?
+        weixin_redis.get("#{client.qrticket_redis_key}:#{str}").nil?
       end
 
       def set_qrticket scene_id = nil, scene_str = nil, expire_seconds = 600, limited = false
