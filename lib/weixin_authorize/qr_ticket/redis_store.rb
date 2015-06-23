@@ -10,7 +10,7 @@ module WeixinAuthorize
         weixin_redis.hvals("#{client.qrticket_redis_key}:#{str}").empty?
       end
 
-      def create_qrticket scene_id, expire_seconds = 600
+      def create_qrticket scene_id, expire_seconds
         super
         weixin_redis.hmset(
           "#{client.qrticket_redis_key}:#{client.qrticket}",

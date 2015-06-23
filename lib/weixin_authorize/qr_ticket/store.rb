@@ -22,7 +22,7 @@ module WeixinAuthorize
         raise NotImplementedError, "Subclasses must implement a `qrticket_expired?` method"
       end
 
-      def create_qrticket scene_id, expire_seconds = 600
+      def create_qrticket scene_id, expire_seconds
         result = client.create_qr_scene(scene_id, expire_seconds).result
 
         client.qrticket            = result["ticket"]
