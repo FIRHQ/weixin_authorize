@@ -16,7 +16,7 @@ module WeixinAuthorize
       end
 
       def get_qrticket str
-        return nil unless super(str)
+        return nil if qrticket_expired?(str)
 
         client.qrticket            = str
         client.qrcode_url          = weixin_redis.get("#{client.qrticket_redis_key}:#{str}")
