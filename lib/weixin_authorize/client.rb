@@ -18,7 +18,7 @@ module WeixinAuthorize
 
     attr_accessor :app_id, :app_secret, :expired_at # Time.now + expires_in
     attr_accessor :access_token, :redis_key
-    attr_accessor :qrticket, :qrcode_url, :qrticket_expired_at, :qrticket_redis_key
+    attr_accessor :qrticket, :qrcode_url, :qrticket_expired_at, :qrticket_is_used, :qrticket_redis_key
     attr_accessor :jsticket, :jsticket_expired_at, :jsticket_redis_key
 
     def initialize app_id, app_secret
@@ -52,8 +52,12 @@ module WeixinAuthorize
       qrticket_store.get_qrticket(str)
     end
 
-    def set_qrticket scene_id, scene_str = nil, expire_seconds = 600, limited = false
-      qrticket_store.set_qrticket(scene_id, scene_str, expire_seconds, limited)
+    def set_qrticket_used str
+      qrticket_store.set_qrticket_used(str)
+    end
+
+    def create_qrticket scene_id, expire_seconds = 600
+      qrticket_store.create_qrticket(scene_id, expire_seconds)
     end
 
     def jsticket_store
