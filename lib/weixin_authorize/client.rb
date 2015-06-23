@@ -1,6 +1,8 @@
 # encoding: utf-8
+
 require "redis"
-require 'digest/md5'
+require "digest/md5"
+
 module WeixinAuthorize
 
   class Client
@@ -16,14 +18,16 @@ module WeixinAuthorize
 
     attr_accessor :app_id, :app_secret, :expired_at # Time.now + expires_in
     attr_accessor :access_token, :redis_key
+    attr_accessor :qrticket, :qrcode_url, :qrticket_expired_at, :qrticket_redis_key
     attr_accessor :jsticket, :jsticket_expired_at, :jsticket_redis_key
 
-    def initialize(app_id, app_secret, redis_key=nil)
-      @app_id     = app_id
-      @app_secret = app_secret
-      @jsticket_expired_at = @expired_at = Time.now.to_i
-      @redis_key  = security_redis_key(redis_key || "weixin_#{app_id}")
-      @jsticket_redis_key = security_redis_key("js_sdk_#{app_id}")
+    def initialize app_id, app_secret
+      @app_id              = app_id
+      @app_secret          = app_secret
+      @redis_key           = "weixin_#{app_id}"
+      @qrticket_redis_key  = "weixin_qr_code_#{app_id}"
+      @jsticket_redis_key  = "weixin_js_sdk_#{app_id}"
+      @qrticket_redis_key  = @jsticket_expired_at = @expired_at = Time.now.to_i
     end
 
     # return token
@@ -40,6 +44,14 @@ module WeixinAuthorize
       Token::Store.init_with(self)
     end
 
+    def qrticket_store
+      QrTicket::Store.init_with(self)
+    end
+
+    def get_qrticket str
+      qrticket_store.get_qrticket(str)
+    end
+
     def jsticket_store
       JsTicket::Store.init_with(self)
     end
@@ -54,6 +66,7 @@ module WeixinAuthorize
       noncestr = SecureRandom.hex(16)
       str = "jsapi_ticket=#{get_jsticket}&noncestr=#{noncestr}&timestamp=#{timestamp}&url=#{url}";
       signature = Digest::SHA1.hexdigest(str)
+
       {
         "appId"     => app_id,    "nonceStr"  => noncestr,
         "timestamp" => timestamp, "url"       => url,
@@ -75,11 +88,7 @@ module WeixinAuthorize
     private
 
       def access_token_param
-        {access_token: get_access_token}
-      end
-
-      def security_redis_key(key)
-        Digest::MD5.hexdigest(key.to_s).upcase
+        { access_token: get_access_token }
       end
 
   end

@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module WeixinAuthorize
   module Token
     class Store
@@ -28,7 +29,7 @@ module WeixinAuthorize
           set_access_token(auth_result.result)
           auth = true
         end
-        {"valid" => auth, "handler" => auth_result}
+        { "valid" => auth, "handler" => auth_result }
       end
 
       def refresh_token
@@ -55,7 +56,7 @@ module WeixinAuthorize
       end
 
       def authenticate_headers
-        {grant_type: GRANT_TYPE, appid: client.app_id, secret: client.app_secret}
+        { grant_type: GRANT_TYPE, appid: client.app_id, secret: client.app_secret }
       end
 
       private

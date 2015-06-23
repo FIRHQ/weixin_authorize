@@ -1,41 +1,41 @@
 # encoding: utf-8
+
 module WeixinAuthorize
   module Api
     module Qrcode
     # http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
 
       # 临时二维码
-      def create_qr_scene(scene_id, expire_seconds=1800)
+      def create_qr_scene scene_id, expire_seconds = 600
         post_url     = "#{qrcode_base_url}/create"
-        qrcode_infos = {action_name: "QR_SCENE", expire_seconds: expire_seconds}
+        qrcode_infos = { action_name: "QR_SCENE", expire_seconds: expire_seconds }
         qrcode_infos = qrcode_infos.merge(action_info(scene_id))
         http_post(post_url, qrcode_infos)
       end
 
       # 永久二维码
       # options: scene_id, scene_str
-      def create_qr_limit_scene(options)
-        scene_id = options[:scene_id]
-        scene_str = options[:scene_str]
+      def create_qr_limit_scene scene_id, scene_str
+        scene_id     = scene_id.to_s
+        scene_str    = scene_str.to_s if scene_str
         post_url     = "#{qrcode_base_url}/create"
-        qrcode_infos = {action_name: "QR_LIMIT_SCENE"}
+        qrcode_infos = { action_name: "QR_LIMIT_SCENE" }
         qrcode_infos = qrcode_infos.merge(action_info(scene_id))
         http_post(post_url, qrcode_infos)
       end
 
       # 为永久的字符串参数值
       # options: scene_str
-      def create_qr_limit_str_scene(options)
-        scene_str = options[:scene_str]
+      def create_qr_limit_str_scene options
+        scene_str    = options[:scene_str]
         post_url     = "#{qrcode_base_url}/create"
-        qrcode_infos = {action_name: "QR_LIMIT_STR_SCENE"}
+        qrcode_infos = { action_name: "QR_LIMIT_STR_SCENE" }
         qrcode_infos = qrcode_infos.merge(action_info(nil, scene_str))
         http_post(post_url, qrcode_infos)
       end
 
-
       # 通过ticket换取二维码, 直接访问即可显示！
-      def qr_code_url(ticket)
+      def qr_code_url ticket
         WeixinAuthorize.mp_endpoint("/showqrcode?ticket=#{ticket}")
       end
 
@@ -45,11 +45,12 @@ module WeixinAuthorize
           "/qrcode"
         end
 
-        def action_info(scene_id, scene_str=nil)
-          scene_info = {}
-          scene_info[:scene_id] = scene_id if !scene_id.nil?
+        def action_info scene_id, scene_str = nil
+          scene_info             = {}
+          scene_info[:scene_id]  = scene_id if !scene_id.nil?
           scene_info[:scene_str] = scene_str if !scene_str.nil?
-          {action_info: {scene: scene_info}}
+
+          { action_info: { scene: scene_info } }
         end
 
     end

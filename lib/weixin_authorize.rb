@@ -1,6 +1,6 @@
 require "rest-client"
 require "carrierwave"
-require 'yajl/json_gem'
+require "yajl/json_gem"
 
 require "weixin_authorize/carrierwave/weixin_uploader"
 require "weixin_authorize/config"
@@ -21,6 +21,12 @@ module WeixinAuthorize
     autoload(:Store,       "weixin_authorize/js_ticket/store")
     autoload(:ObjectStore, "weixin_authorize/js_ticket/object_store")
     autoload(:RedisStore,  "weixin_authorize/js_ticket/redis_store")
+  end
+
+  module QrTicket
+    autoload(:Store,       "weixin_authorize/qr_ticket/store")
+    autoload(:ObjectStore, "weixin_authorize/qr_ticket/object_store")
+    autoload(:RedisStore,  "weixin_authorize/qr_ticket/redis_store")
   end
 
   OK_MSG  = "ok"
@@ -75,7 +81,5 @@ module WeixinAuthorize
     def open_endpoint(url)
       "https://open.weixin.qq.com#{url}"
     end
-
   end
-
 end
