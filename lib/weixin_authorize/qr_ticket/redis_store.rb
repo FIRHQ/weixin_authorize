@@ -17,7 +17,7 @@ module WeixinAuthorize
           QRTICKET,
           client.qrticket,
           QRCODE_URL,
-          client.qrcode_url
+          client.qrcode_url,
           EXPIRED_AT,
           client.qrticket_expired_at,
           IS_USERD,
