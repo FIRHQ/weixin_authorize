@@ -23,18 +23,18 @@ module WeixinAuthorize
       end
 
       def create_qrticket scene_id, expire_seconds
-        result = client.create_qr_scene(scene_id, expire_seconds).result
+        res = client.create_qr_scene(scene_id, expire_seconds)
 
         # TODO: 这个 gem 包真他妈难用, 各种隐晦, 回头重写这套逻辑!!!!!!!
-        unless result.is_ok?
+        unless res.is_ok?
           token_store.refresh_token
-          result = client.create_qr_scene(scene_id, expire_seconds).result
+          res = client.create_qr_scene(scene_id, expire_seconds)
         end
 
-        client.qrticket            = result["ticket"]
-        client.qrcode_url          = result["url"]
+        client.qrticket            = res.result["ticket"]
+        client.qrcode_url          = res.result["url"]
         client.qrticket_is_used    = '0'
-        client.qrticket_expired_at = result["expire_seconds"].to_i + Time.now.to_i
+        client.qrticket_expired_at = res.result["expire_seconds"].to_i + Time.now.to_i
       end
     end
   end
