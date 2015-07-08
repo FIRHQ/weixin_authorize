@@ -28,7 +28,7 @@ module WeixinAuthorize
         client.qrticket            = result["ticket"]
         client.qrcode_url          = result["url"]
         client.qrticket_is_used    = '0'
-        client.qrticket_expired_at = result["expire_seconds"] + Time.now.to_i
+        client.qrticket_expired_at = result["expire_seconds"].to_i + Time.now.to_i
       end
     end
   end
