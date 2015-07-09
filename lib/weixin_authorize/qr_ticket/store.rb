@@ -27,7 +27,7 @@ module WeixinAuthorize
 
         # TODO: 这个 gem 包真他妈难用, 各种隐晦, 回头重写这套逻辑!!!!!!!
         unless res.is_ok?
-          token_store.refresh_token
+          client.token_store.refresh_token
           res = client.create_qr_scene(scene_id, expire_seconds)
         end
 
